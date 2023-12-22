@@ -54,7 +54,7 @@
 
   //利用$.get()方法傳送請求並取得回應
   // ******最常用的******
-  $.get('https://kktix.com/events.json',(data)=>{
+  $.get('https://kktix.com/events.json', (data) => {
     let events = data.entry;
     //console.log(events);
     events.forEach((event, idx) => {
@@ -62,8 +62,10 @@
                                 <div>${event.title}</div>
                                 <div>${event.summary}</div>
                                 <div>${event.content}</div>
-                            </li>"`)})
+                            </li>"`)
+    })
     $(".title").text(data.title)
-    $(".updated").text(data.updated)})
+    $(".updated").text(data.updated)
+  })
 
 </script>
