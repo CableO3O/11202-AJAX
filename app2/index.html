@@ -16,8 +16,8 @@
 </head>
 
 <body>
-  <h1 class="header">學生資料管理系統<button type="button" class="btn btn-primary mx-3"
-      onclick="stuModal.show('#studentform')">+新增</button></h1>
+  <h1 class="header">學生資料管理系統<button type="button" class="btn btn-primary mx-3" onclick="popform('add')">+新增</button>
+  </h1>
   <div class="container d-flex">
     <div class="sex mx-2 my-3">
       <button class="btn btn-primary mx-2 my-2" onclick="query('sex',1)">男生</button>
@@ -29,69 +29,8 @@
   <div class="users d-flex flex-wrap mx-auto my-3" style="width:64%"></div>
   <!-- 新增按鈕的modal -->
   <div id="modals">
-    <div class="modal fade" id="studentform" tabindex="-1" aria-labelledby="studentformLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h1 class="modal-title fs-5" id="studentformlLabel">新增學生</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <form action="./api/insert.php" method="post" class="row">
-              <div class="mb-3 col-6">
-                <label for="name" class="form-label">姓名</label>
-                <input type="text" class="form-control" name="name" id="name" placeholder="">
-              </div>
-              <div class="mb-3 col-6">
-                <label for="school_num" class="form-label">學號</label>
-                <input type="text" class="form-control" name="school_num" id="school_num" placeholder="">
-              </div>
-              <div class="mb-3 col-6">
-                <label for="birthday" class="form-label">生日</label>
-                <input type="date" class="form-control" name="birthday" id="birthday" placeholder="">
-              </div>
-              <div class="mb-3 col-6">
-                <label for="uni_id" class="form-label">身分證字號</label>
-                <input type="text" class="form-control" name="uni_id" id="uni_id" placeholder="">
-              </div>
-              <div class="mb-3 col-6">
-                <label for="addr" class="form-label">地址</label>
-                <input type="text" class="form-control" name="addr" id="addr" placeholder="">
-              </div>
-              <div class="mb-3 col-6">
-                <label for="parents" class="form-label">家長</label>
-                <input type="text" class="form-control" name="parents" id="parents" placeholder="">
-              </div>
-              <div class="mb-3 col-6">
-                <label for="tel" class="form-label">電話</label>
-                <input type="text" class="form-control" name="tel" id="tel" placeholder="">
-              </div>
-              <div class="mb-3 col-6">
-                <label for="dept" class="form-label">科系</label>
-                <input type="text" class="form-control" name="dept" id="dept" placeholder="">
-              </div>
-              <div class='mb-3 col-6'>
-                <label for="schools" class="form-label">畢業國中</label>
-                <select id="schools" class="form-select"  aria-label="Default select">
-                  
-                </select>
-              </div>
-              <div class="mb-3 col-6">
-                <label for="status_code" class="form-label">畢業狀態</label>
-                <input type="text" class="form-control" name="status_code" id="status_code" placeholder="">
-              </div>
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
-              <button type="submit" class="btn btn-primary">確認新增</button>
-            </form>
-          </div>
-          <div class="modal-footer">
-          </div>
-        </div>
-      </div>
-    </div>
+
   </div>
-
-
 
 </body>
 
@@ -105,14 +44,33 @@
   * 5.是否需要更新畫面內容？更新畫面的方法？
   ************************************/
   // modal控制
-  const stuModal = new bootstrap.Modal('#studentform', {
-    keyboard: false
-  })
-  $("#studentform").on('show.bs.modal',()=>{
-  $.get("./api/get_schools.php",(options)=>{
-    $("#schools").html(options)
-  })
-})
+  // const stuModal = new bootstrap.Modal('#studentform', {
+  //   keyboard: false
+  // })
+  // $("#studentform").on('show.bs.modal', () => {
+  //   $.get("./api/get_schools.php", (options) => {
+  //     $("#schools").html(options)
+  //   })
+  // })
+  let stuModal;
+  function popform(type, id = null) {
+    $.get('./api/user_form.php', (form) => {
+      // 先把表單放到modal
+      $("#modals").html(form);
+      // 宣告modal物件
+      stuModal = new bootstrap.Modal('#studentform', {
+        keyboard: false
+      })
+      // 註冊modal的顯示事件
+      $("#studentform").on('show.bs.modal', () => {
+        $.get("./api/get_schools.php", (options) => {
+          $("#schools").html(options)
+        })
+      })
+      stuModal.show("studentform")
+    })
+  }
+
   queryAll();
   queryClasses();
 
