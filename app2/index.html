@@ -12,19 +12,37 @@
   <!---匯入要使用的函式庫--->
   <script src="jquery.js"></script>
   <script src="../plugin/js/bootstrap.js"></script>
-
+  <style>
+    #relation {
+    border: 1px solid #ccc;
+    width: 93.5%;
+    position: relative;
+    left: 74px;
+    top: -1px;
+    display:none;
+}
+</style>
 </head>
 
 <body>
   <h1 class="header">學生資料管理系統<button type="button" class="btn btn-primary mx-3" onclick="popform('add')">+新增</button>
   </h1>
   <div class="container d-flex">
-    <div class="sex mx-2 my-3">
+    
+    <div class="all mx-2 my-3 col-1">
+      <button class="btn btn-success mx-2 my-2" onclick="queryAll()">全部</button>
+    </div>
+    <div class="sex mx-2 my-3 col-2">
       <button class="btn btn-primary mx-2 my-2" onclick="query('sex',1)">男生</button>
       <button class="btn btn-danger mx-2 my-2" onclick="query('sex',2)">女生</button>
     </div>
-    <div class="classes mx-2 my-3">
+    <div class="classes mx-2 my-3 col-9">
     </div>
+  </div>
+  <div class="input-group mb-3 container">
+    <span class="input-group-text" id="basic-addon1">search</span>
+    <input id="search-input" type="text" class="form-control">
+    <div id="relation"></div>
   </div>
   <div class="users d-flex flex-wrap mx-auto my-3" style="width:64%"></div>
   <!-- 新增按鈕的modal -->
@@ -52,6 +70,17 @@
   //     $("#schools").html(options)
   //   })
   // })
+  let input
+$("#search-input").on('input',()=>{
+  input=$("#search-input").val()
+  $.get("./api/search.php",{input},(result)=>{
+    $("#relation").html(result)
+    $("#relation").show()
+  })
+})
+
+
+
   let stuModal;
   function popform(type, id = null) {
     switch (type) {
@@ -93,14 +122,14 @@
         })
 
         //觸發顯示
-        stuModal.show("studentForm")              
+        stuModal.show("studentform")              
         })
       break;
     }
   }
 
-  queryAll();
   queryClasses();
+  query('class','101')
 
   //新增資料的函式
   function create() {
@@ -110,15 +139,21 @@
   //查詢資料的函式
   function query(type, value) {
     $.get(`./api/query.php?do=${type}`, { value }, (res) => {
-      console.log(res)
+      // console.log(res)
       render(res)
+      if (type=='class') {
+        $(".class-btn.btn.btn-success").addClass('btn-info');
+        $(".class-btn.btn.btn-success").removeClass('btn-success');
+        $("#b"+value).addClass('btn-success');
+        $("#b"+value).removeClass('btn-info');
+      }
     })
   }
   function queryClasses() {
     $.get("./api/query.php?do=classes", (classes) => {
       let class_btns;
       classes.forEach((c, idx) => {
-        class_btns = `<button class='btn btn-info m-2' onclick="query('class',${c.code})">${c.name}</button>`
+        class_btns = `<button id="b${c.code}" class='class-btn btn btn-info m-2' onclick="query('class',${c.code})">${c.name}</button>`
         $(".classes").append(class_btns)
       })
     })
