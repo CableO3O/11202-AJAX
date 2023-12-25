@@ -7,7 +7,7 @@ switch ($_GET['do']) {
         echo json_encode($Student->all());
         break;
     case 'sex':
-        $users = $Student->q("select `name`,`uni_id`,`school_num`,`birthday` from `students` where substr(`uni_id`,2,1)='{$_GET['value']}'");
+        $users = $Student->q("select `id`,`name`,`uni_id`,`school_num`,`birthday` from `students` where substr(`uni_id`,2,1)='{$_GET['value']}'");
         header('Content-Type: applocation/json; chaset=utf-8');
         echo json_encode($users);
         break;
@@ -21,7 +21,7 @@ switch ($_GET['do']) {
             }
         }
         $in = join(',', $nums);
-        $users = $Student->q("select `name`,`uni_id`,`school_num`,`birthday` from `students` where `id` in($in)");
+        $users = $Student->q("select `name`,`uni_id`,`school_num`,`birthday`,`id` from `students` where `id` in($in)");
         header('Content-Type: applocation/json; chaset=utf-8');
         echo json_encode($users);
         break;
