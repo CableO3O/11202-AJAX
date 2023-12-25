@@ -11,11 +11,13 @@
   <link rel="stylesheet" href="../plugin/css/bootstrap.css">
   <!---匯入要使用的函式庫--->
   <script src="jquery.js"></script>
+  <script src="../plugin/js/bootstrap.js"></script>
 
 </head>
 
 <body>
-  <h1 class="header">學生資料管理系統</h1>
+  <h1 class="header">學生資料管理系統<button type="button" class="btn btn-primary mx-3"
+      onclick="stuModal.show('#studentform')">+新增</button></h1>
   <div class="container d-flex">
     <div class="sex mx-2 my-3">
       <button class="btn btn-primary mx-2 my-2" onclick="query('sex',1)">男生</button>
@@ -25,6 +27,70 @@
     </div>
   </div>
   <div class="users d-flex flex-wrap mx-auto my-3" style="width:64%"></div>
+  <!-- 新增按鈕的modal -->
+  <div id="modals">
+    <div class="modal fade" id="studentform" tabindex="-1" aria-labelledby="studentformLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="studentformlLabel">新增學生</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form action="./api/insert.php" method="post" class="row ">
+              <div class="mb-3 col-6">
+                <label for="exampleFormControlInput1" class="form-label">姓名</label>
+                <input type="text" class="form-control" id="name" placeholder="">
+              </div>
+              <div class="mb-3 col-6">
+                <label for="exampleFormControlInput1" class="form-label">學號</label>
+                <input type="text" class="form-control" id="school_num" placeholder="">
+              </div>
+              <div class="mb-3 col-6">
+                <label for="exampleFormControlInput1" class="form-label">生日</label>
+                <input type="text" class="form-control" id="birthday" placeholder="">
+              </div>
+              <div class="mb-3 col-6">
+                <label for="exampleFormControlInput1" class="form-label">身分證字號</label>
+                <input type="text" class="form-control" id="uni_id" placeholder="">
+              </div>
+              <div class="mb-3 col-6">
+                <label for="exampleFormControlInput1" class="form-label">地址</label>
+                <input type="text" class="form-control" id="addr" placeholder="">
+              </div>
+              <div class="mb-3 col-6">
+                <label for="exampleFormControlInput1" class="form-label">家長</label>
+                <input type="text" class="form-control" id="parents" placeholder="">
+              </div>
+              <div class="mb-3 col-6">
+                <label for="exampleFormControlInput1" class="form-label">電話</label>
+                <input type="text" class="form-control" id="tel" placeholder="">
+              </div>
+              <div class="mb-3 col-6">
+                <label for="exampleFormControlInput1" class="form-label">科系</label>
+                <input type="text" class="form-control" id="dept" placeholder="">
+              </div>
+              <div class="mb-3 col-6">
+                <label for="exampleFormControlInput1" class="form-label">畢業學校</label>
+                <input type="text" class="form-control" id="graduate_at" placeholder="">
+              </div>
+              <div class="mb-3 col-6">
+                <label for="exampleFormControlInput1" class="form-label">狀態</label>
+                <input type="text" class="form-control" id="status_code" placeholder="">
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-primary">確認新增</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
 </body>
 
 </html>
@@ -36,8 +102,14 @@
   * 4.是否會有回傳值？回傳值的功用及處理？
   * 5.是否需要更新畫面內容？更新畫面的方法？
   ************************************/
+  // modal控制
+  const stuModal = new bootstrap.Modal('#studentform', {
+    keyboard: false
+  })
+
   queryAll();
   queryClasses();
+
   //新增資料的函式
   function create() {
 
