@@ -13,6 +13,7 @@
                 if (isset($_GET['id'])) {
                     include_once "db.php";
                         $user=$Student->find($_GET['id']);
+                        // 將陣列內鍵值設為變數
                         extract($user);
                 }
                 ?>
