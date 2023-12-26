@@ -20,7 +20,7 @@ class DB{
     {
         $sql = "select * from `$this->table` ";
         $sql =$this->sql_all($sql,$where,$other);
-        return  $this->pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+        return  $this->q($sql);
     }
 
     function count( $where = '', $other = ''){
