@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./plugin/css/bootstrap.css">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="stock"></div>
+    <script src="./plugin/js/jquery.js"></script>
+    <script src="./plugin/js/bootstrap.js"></script>
+</body>
+
+</html>
+<script>
+    setInterval(()=>{
+        $.get("curl.php",(stock)=>{
+            console.log('stock',stock);
+            let data=JSON.parse(stock);
+            console.log('data',data);
+            $('#stock').text(data['msgArray'][0]['z'])
+        })
+    },5000)
+</script>
